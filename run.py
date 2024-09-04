@@ -52,7 +52,8 @@ def validate_data(values):
     return True    
 
 """
-REFACTORING
+--- REFACTORING ---
+
 def update_sales_worksheet(data):
     
     Update sales worksheet, add nem row with the list data provided
@@ -69,7 +70,10 @@ def update_surplus_worksheet(data):
     print('Updating surplus worksheet...\n')
     surplus_worksheet = SHEET.worksheet("surplus")
     surplus_worksheet.append_row(data)
-    print('Surplus worksheetupdated successfully.\n')"""
+    print('Surplus worksheetupdated successfully.\n')
+    
+    --- REFACTORING ---
+    """
 
 def update_worksheet(data, worksheet):
         """
@@ -97,8 +101,24 @@ def calculate_surplus_data(sales_row):
     for stock, sales in zip(stock_row, sales_row):
         surplus = int(stock) - sales
         surplus_data.append(surplus)
+    
 
     return surplus_data
+
+def get_last_5_entries_sales():
+    """
+    Collects collumns of data from sales worksheet, collecting
+    the last 5 entries for each sandwich and returns the data as a list of lists
+    """
+    sales = SHEET.worksheet("sales")
+
+    columns = []
+    for ind in range(1, 7):
+        column = sales.col_values(ind)
+        columns.append(column[-5:])
+    
+    return columns    
+
 
 def main():
     """
@@ -111,4 +131,5 @@ def main():
     update_worksheet(new_surplus_data, "surplus")
 
 print('Welcome to Love Sandwiches Data Automation')
-main()
+# main()
+sales_columns = get_last_5_entries_sales()
